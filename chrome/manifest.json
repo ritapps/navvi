@@ -1,0 +1,30 @@
+{
+    "name": "blah",
+    "version": "0.1",
+    "description": "blah",
+    "permissions": [
+        "activeTab",
+        "http://*/*", "tabs"
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "http://*/*",
+                "https://*/*"
+            ],
+            "js": [
+                "content-script.js"
+            ],
+            "run_at": "document_start",
+            "all_frames": true
+        }
+    ],
+    "background": {
+        "scripts": [
+            "background.js",
+            "content-script.js"
+        ],
+        "persistent": false
+    },
+    "manifest_version": 2
+}
