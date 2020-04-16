@@ -39,7 +39,7 @@ const make_id_element = ({ left, top, fixed }) => {
     c.appendChild(p);
     // circle.insertBefore(document.createTextNode(i));
     THE_UNIVERSAL_INDEX += 1;
-    console.log("THE_UNIVERSAL_INDEX", THE_UNIVERSAL_INDEX);
+    // console.log("THE_UNIVERSAL_INDEX", THE_UNIVERSAL_INDEX);
     
 
     return c;
@@ -71,7 +71,11 @@ const show_numbers = () => {
             return
         }
 
-        const { left, top } = el.getBoundingClientRect();
+        let { left, top } = el.getBoundingClientRect();
+
+        console.log("window.scrollX", window.scrollX);
+        console.log("window.scrollY", window.scrollY);
+        
 
         if (ONLY_VISIBLE_ELEMENTS) {
             const windim = get_window_size();
@@ -87,9 +91,10 @@ const show_numbers = () => {
         }
 
         // const fixed = find_propigated_style(el, "position", "fixed");
-        // console.log("fixed", fixed);
+        console.log("document.documentElement.scrollTop", document.documentElement.scrollTop);
 
-        const circle = make_id_element({ left, top, fixed: false });
+        // const circle = make_id_element({ left, top: top + document.documentElement.scrollTop, fixed: false });
+        const circle = make_id_element({ left: left + window.scrollX, top: top + window.scrollY, fixed: false });
 
         body.appendChild(circle);
     })
