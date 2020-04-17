@@ -1,6 +1,7 @@
 import { BACKGROUND_COLOR, BORDER_COLOR, TEXT_COLOR } from "../utils/constants";
+import { get_window_dimensions } from "../utils/funcs";
 
-export const new_identifier_element = ({ left, top, fixed, className, index }) => {
+export const create_identifier_element = ({ left, top, fixed, className, index }) => {
     let c = document.createElement("div");
     c.classList.add(className);
 
@@ -26,3 +27,30 @@ export const new_identifier_element = ({ left, top, fixed, className, index }) =
 
     return c;
 };
+
+export const create_input_element = () => {
+    const input = document.createElement("input");
+
+    input.style.backgroundColor = `${BACKGROUND_COLOR}`;
+    input.style.border = `1px solid ${BORDER_COLOR}`;
+    input.style.color = `${TEXT_COLOR}`;
+    input.style.borderRadius = "4px";
+    input.style.fontSize = "16px";
+
+    const height = 20;
+    const width = 200;
+    const windim = get_window_dimensions();
+    const top = windim.height - height - 50;
+    const left = (windim.width - width) / 2;
+
+    input.style.top = `${top}px`;
+    input.style.left = `${left}px`;
+    input.style.zIndex = 100;
+
+    input.style.position = "fixed";
+
+    input.style.padding = "6px 10px";
+    input.style.margin = "0px";
+
+    return input;
+}
