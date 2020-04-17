@@ -42,7 +42,7 @@ const make_id_element = ({ left, top, fixed }) => {
     // console.log("THE_UNIVERSAL_INDEX", THE_UNIVERSAL_INDEX);
     
 
-    return c;
+    return [c, THE_UNIVERSAL_INDEX];
 };
 
 const find_propigated_style = (el, key, value) => {
@@ -59,27 +59,17 @@ const find_propigated_style = (el, key, value) => {
 
 const ONLY_VISIBLE_ELEMENTS = true;
 
+let ELEMENT_MAP = {};
+
 const show_numbers = () => {
 
     const body = document.querySelector("body");
+    const windim = get_window_size();
 
     document.querySelectorAll("a, button").forEach((el, i) => {
-        const not_visible = find_propigated_style(el, "visibility", "hidden")
-            || find_propigated_style(el, "display", "none");
-
-        if (not_visible) {
-            return
-        }
-
         let { left, top } = el.getBoundingClientRect();
 
-        console.log("window.scrollX", window.scrollX);
-        console.log("window.scrollY", window.scrollY);
-        
-
         if (ONLY_VISIBLE_ELEMENTS) {
-            const windim = get_window_size();
-
             const outside = top + el.offsetHeight < 0
                 || top - el.offsetHeight > windim.height
                 || left + el.offsetWidth < 0
@@ -90,13 +80,19 @@ const show_numbers = () => {
             }
         }
 
-        // const fixed = find_propigated_style(el, "position", "fixed");
-        console.log("document.documentElement.scrollTop", document.documentElement.scrollTop);
+        const not_visible = find_propigated_style(el, "visibility", "hidden")
+            || find_propigated_style(el, "display", "none");
+
+        if (not_visible) {
+            return
+        }
 
         // const circle = make_id_element({ left, top: top + document.documentElement.scrollTop, fixed: false });
-        const circle = make_id_element({ left: left + window.scrollX, top: top + window.scrollY, fixed: false });
+        const [circle, id] = make_id_element({ left: left + window.scrollX, top: top + window.scrollY, fixed: false });
 
         body.appendChild(circle);
+
+        ELEMENT_MAP[id] = el;
     })
 }
 
@@ -105,6 +101,7 @@ const hide_numbers = () => {
     while (els.length > 0) {
         els[0].parentNode.removeChild(els[0]);
     }
+    ELEMENT_MAP = {};
 }
 
 document.onkeypress = (e) => {
@@ -117,6 +114,7 @@ document.onkeypress = (e) => {
             show_numbers();
             THE_UNIVERSAL_TRUTH = true;
         }
+        console.log("ELEMENT_MAP", ELEMENT_MAP);
     } else {
         console.log(e);
     }
@@ -150,3 +148,4 @@ const get_window_size = () => {
     
     return { width, height };
 }
+

@@ -4,7 +4,8 @@
     "description": "blah",
     "permissions": [
         "activeTab",
-        "http://*/*", "tabs"
+        "http://*/*",
+        "tabs"
     ],
     "content_scripts": [
         {
@@ -12,11 +13,8 @@
                 "http://*/*",
                 "https://*/*"
             ],
-            "css": [
-                "some.css"
-            ],
             "js": [
-                "content-script.js"
+                "build/content-script.js"
             ],
             "run_at": "document_start",
             "all_frames": true
@@ -24,8 +22,8 @@
     ],
     "background": {
         "scripts": [
-            "background.js",
-            "content-script.js"
+            "index.js",
+            "build/content-script.js"
         ],
         "persistent": false
     },
