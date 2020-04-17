@@ -124,10 +124,63 @@ const hide_input = () => {
     INPUT_FORM_VISIBLE = false;
 };
 
-
 const handle_user_input = (value) => {
-   
+    if (value.length === 0 || value[0] !== ":") {
+        return "invalid input value";
+    }
+
+    if (value.length === 1) {
+        return "no input value, just \":\" is not expected";
+    }
+
+    let number = undefined;
+
+    let i = 1;
+    while (i < value.length) {
+        const char = value[i];
+
+        if (isNaN(char)) {
+            break;
+        }
+
+        if (isNaN(number)) {
+            number = parseInt(char);
+        } else {
+            number *= 10;
+            number += parseInt(char);
+        }
+
+        i++;
+    }
+
+    if (i === value.length) {
+        return `no action provided for ref "${number}"`;
+    }
+
+    const action = value.slice(i);
+
+    console.log("value", value);
+    
+
+    switch (action) {
+        case "c":
+            console.log("click", number);
+            break;
+        case "click":
+            console.log("click", number);
+            break;
+        case "f":
+            console.log("focus", number);
+            break;
+        case "focus":
+            console.log("focus", number);
+            break;
+        default:
+            return `invalid action "${action}"`;
+    }
 }
+
+// handle_user_input(":1234n");
 
 let OTHER_EVENT_LISTENERS_ADDED = false;
 
