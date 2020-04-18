@@ -22,7 +22,7 @@ export const create_identifier_element = ({ left, top, fixed, className, index }
     p.style.padding = "2px 2px 2px 2px";
     p.style.margin = "0px";
 
-    p.appendChild(document.createTextNode(index));
+    p.appendChild(document.createTextNode(index < 10 ? `0${index}` : index));
     c.appendChild(p);
 
     return c;
