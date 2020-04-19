@@ -10,7 +10,7 @@ export const create_identifier_element = ({ left, top, fixed, className, id }) =
     c.style.borderRadius = "4px";
     c.style.top = `${top}px`;
     c.style.left = `${left}px`;
-    c.style.zIndex = 99;
+    c.style.zIndex = 999997;
 
     if (fixed) c.style.position = "fixed";
     else c.style.position = "absolute";
@@ -45,7 +45,7 @@ export const create_input_element = () => {
 
     input.style.top = `${top}px`;
     input.style.left = `${left}px`;
-    input.style.zIndex = 100;
+    input.style.zIndex = 999998;
 
     input.style.position = "fixed";
 
@@ -77,7 +77,7 @@ export const create_error_message_element = ({ errorMsg, idAttr }) => {
 
     p.style.top = `${top}px`;
     p.style.left = `${left}px`;
-    p.style.zIndex = 100;
+    p.style.zIndex = 999999;
 
     p.style.position = "fixed";
 
