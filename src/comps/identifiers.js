@@ -1,7 +1,7 @@
 import { BACKGROUND_COLOR, BORDER_COLOR, TEXT_COLOR } from "../utils/constants";
 import { get_window_dimensions } from "../utils/funcs";
 
-export const create_identifier_element = ({ left, top, fixed, className, index }) => {
+export const create_identifier_element = ({ left, top, fixed, className, id }) => {
     let c = document.createElement("div");
     c.classList.add(className);
 
@@ -22,7 +22,7 @@ export const create_identifier_element = ({ left, top, fixed, className, index }
     p.style.padding = "2px 2px 2px 2px";
     p.style.margin = "0px";
 
-    p.appendChild(document.createTextNode(index < 10 ? `0${index}` : index));
+    p.appendChild(document.createTextNode(id));
     c.appendChild(p);
 
     return c;

@@ -9,9 +9,11 @@ import {
 import {
     CIRCLE_CLASS_NAME,
     ESC_KEY_CODE,
+    KEY_CODE_E,
     IDK_KEY_CODE,
     INPUT_FORM_ID,
 } from "./utils/constants";
+import { num_to_key } from "./keymaps";
 
 // if `true`, it only shows identifiers to
 // elements that are visible on the window
@@ -73,7 +75,7 @@ const show_identifiers = () => {
             left,
             fixed: false,
             className: CIRCLE_CLASS_NAME,
-            index,
+            id: num_to_key(index),
         });
 
         body.appendChild(circle);
