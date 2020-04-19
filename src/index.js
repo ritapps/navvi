@@ -355,13 +355,11 @@ document.onkeypress = (e) => {
     e = e || window.event;
 
     const tagName = e.target.tagName.toLowerCase();
-    if (tagName === "input" || tagName === "textarea" || tagName === "select") {
-        return;
-    }
+    const not_typing = tagName === "input" || tagName === "textarea" || tagName === "select";
 
-    e.preventDefault();
+    if (not_typing && e.keyCode === IDK_KEY_CODE) {
+        e.preventDefault();
 
-    if (e.keyCode === IDK_KEY_CODE) {
         if (!IS_IDENTIFIER_VISIBLE) {
             show_identifiers();
         }
