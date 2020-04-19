@@ -194,7 +194,7 @@ const show_error_message = (errorMsg) => {
 
 const hide_error_message = () => {
     var errmsg = document.getElementById(ERROR_MESSAGE_ELEMENT_ID);
-    form.parentNode.removeChild(errmsg);
+    errmsg.parentNode.removeChild(errmsg);
 
     IS_ERROR_MESSAGE_VISIBLE = false;
 };
