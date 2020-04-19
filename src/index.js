@@ -70,9 +70,6 @@ const show_identifiers = () => {
             return;
         }
 
-        console.log("FFF");
-        
-
         const circle = create_identifier_element({
             top,
             left,
@@ -80,8 +77,6 @@ const show_identifiers = () => {
             className: CIRCLE_CLASS_NAME,
             id: num_to_key(index),
         });
-
-        console.log("FFF-2");
 
         body.appendChild(circle);
 
@@ -125,8 +120,12 @@ const show_input = () => {
             console.log("Error:", error);
         }
 
-        hide_identifiers();
-        hide_input();
+        if (IS_IDENTIFIER_VISIBLE) {
+            hide_identifiers();
+        }
+        if (IS_INPUT_FORM_VISIBLE) {
+            hide_input();
+        }
     });
 
     const body = document.querySelector("body");
@@ -143,7 +142,12 @@ const show_input = () => {
 
         // if value of input is empty, closes input
         if (e.target.value === "") {
-            hide_input();
+            if (IS_IDENTIFIER_VISIBLE) {
+                hide_identifiers();
+            }
+            if (IS_INPUT_FORM_VISIBLE) {
+                hide_input();
+            }
             return;
         }
     });
@@ -182,13 +186,20 @@ const handle_user_input = (value) => {
         i++;
     }
 
+    keystr = keystr.trim();
+
+    const specific_action = check_for_specific_actions(keystr);
+    if (specific_action) {
+        specific_action();
+    }
+
     const number = key_to_num(keystr);
 
     let action = value.slice(i).trim();
     const targetElem = REFERENCE_ELEMENT_MAP[number];
 
     if (!targetElem) {
-        return `invalid identifier "${keystr}"`;
+        return `identifier "${keystr}" not found "${keystr}", no action "${keystr}"`;
     }
 
     if (!action || action.length === 0) {
@@ -243,29 +254,46 @@ const get_default_action = (tagName) => {
     }
 }
 
+const check_for_specific_actions = (keystr) => {
+    switch (keystr.length && keystr.toLowerCase()[0]) {
+        case "w":
+            return () => {
+                console.log("F", window.history.go(1));
+            };
+        case "b":
+            return () => {
+                console.log("F", window.history.go(-1));
+            };
+        default:
+            return null;
+    }
+}
+
 // other event listener needed to be added only
 // once, so this makes sure it doesn't repeat
 let OTHER_EVENT_LISTENERS_ADDED = false;
 
 // other event listeners, liek hiding identifiers and input on scroll
 const add_other_listeners = () => {
-    document.addEventListener("scroll", async () => {
-        if (IS_IDENTIFIER_VISIBLE) {
-            hide_identifiers();
-            hide_input();
-        }
-    });
+    if (!OTHER_EVENT_LISTENERS_ADDED) {
 
-    OTHER_EVENT_LISTENERS_ADDED = true;
+        document.addEventListener("scroll", async () => {
+            if (IS_IDENTIFIER_VISIBLE) {
+                hide_identifiers();
+            }
+            if (IS_INPUT_FORM_VISIBLE) {
+                hide_input();
+            }
+        });
+
+        OTHER_EVENT_LISTENERS_ADDED = true;
+    }
 };
 
 document.onkeyup = (e) => {
     e = e || window.event;
 
     if (e.keyCode === ESC_KEY_CODE) {
-        if (!OTHER_EVENT_LISTENERS_ADDED) {
-            add_other_listeners();
-        }
 
         if (!IS_IDENTIFIER_VISIBLE) {
             show_identifiers();
@@ -275,16 +303,30 @@ document.onkeyup = (e) => {
                 hide_input();
             }
         }
+
+        add_other_listeners();
     }
 }
 
 document.onkeypress = (e) => {
     e = e || window.event;
 
-    if (IS_IDENTIFIER_VISIBLE && e.keyCode === IDK_KEY_CODE) {
-        e.preventDefault();
-        show_input();
+    const tagName = e.target.tagName.toLowerCase();
+    if (tagName === "input" || tagName === "textarea" || tagName === "select") {
+        return;
     }
 
-    console.log("e.keyCode", e.keyCode);
+    e.preventDefault();
+
+    if (e.keyCode === IDK_KEY_CODE) {
+        if (!IS_IDENTIFIER_VISIBLE) {
+            show_identifiers();
+        }
+
+        show_input();
+        add_other_listeners();
+    } else {
+        console.log("IDK_KEY_CODE", IDK_KEY_CODE);
+        console.log("e.keyCode", e.keyCode);
+    }
 };
