@@ -1,2 +1,7 @@
-# wizard-wand
-shortcuts are spells, keys are wand! keys on steroids! navigate the browser likea wizard! Keyboard shortcut for triggering click &amp; stuff.
+Navigate web pages using simple vim like keyboard interface.
+
+![A Screenrecording](https://raw.githubusercontent.com/ritapps/navvi/master/assets/screenshots/screen-record-0.gif)
+
+# Commands
+
+yet to add a good documentation.

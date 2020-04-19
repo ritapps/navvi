@@ -227,6 +227,7 @@ const handle_user_input = (value) => {
     const specific_action = check_for_specific_actions(keystr);
     if (specific_action) {
         specific_action();
+        return;
     }
 
     const number = key_to_num(keystr);
