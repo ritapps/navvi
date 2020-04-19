@@ -13,7 +13,7 @@ import {
     IDK_KEY_CODE,
     INPUT_FORM_ID,
 } from "./utils/constants";
-import { num_to_key } from "./keymaps";
+import { num_to_key, key_to_num } from "./keymaps";
 
 // if `true`, it only shows identifiers to
 // elements that are visible on the window
@@ -70,6 +70,9 @@ const show_identifiers = () => {
             return;
         }
 
+        console.log("FFF");
+        
+
         const circle = create_identifier_element({
             top,
             left,
@@ -77,6 +80,8 @@ const show_identifiers = () => {
             className: CIRCLE_CLASS_NAME,
             id: num_to_key(index),
         });
+
+        console.log("FFF-2");
 
         body.appendChild(circle);
 
@@ -164,30 +169,29 @@ const handle_user_input = (value) => {
         return 'no input value, just ":" is not expected';
     }
 
-    let number = undefined;
-
+    let keystr = "";
     let i = 1;
+
     while (i < value.length) {
         const char = value[i];
-
-        if (isNaN(char)) {
+        if (char === " ") {
             break;
         }
 
-        if (isNaN(number)) {
-            number = parseInt(char);
-        } else {
-            number *= 10;
-            number += parseInt(char);
-        }
-
+        keystr += char;
         i++;
     }
 
-    let action = value.slice(i);
+    const number = key_to_num(keystr);
+
+    let action = value.slice(i).trim();
     const targetElem = REFERENCE_ELEMENT_MAP[number];
 
-    if (action.length === 0) {
+    if (!targetElem) {
+        return `invalid identifier "${keystr}"`;
+    }
+
+    if (!action || action.length === 0) {
         action = get_default_action(targetElem.tagName);
     }
 
@@ -227,7 +231,7 @@ const ACTION_ID_f = ["f", "focus"];
 
 // given a tagname, it returns it's default click action
 const get_default_action = (tagName) => {
-    switch (tagName) {
+    switch (tagName.toLowerCase()) {
         case "a":
             return ACTION_ID_o[0];
         case "button":

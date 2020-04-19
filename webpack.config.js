@@ -8,6 +8,7 @@ module.exports = {
         path: path.join(CHROME_EXTENSION_DIR, "build"),
         filename: "content-script.js"
     },
+    // devtool: 'source-map',
     module: {
         rules: [
             {

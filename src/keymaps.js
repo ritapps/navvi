@@ -21,7 +21,7 @@ const KeyToNumMap = {
     "f": 7,
 }
 
-const num_to_key = (num) => {
+export const num_to_key = (num) => {
     let str = parseInt(num).toString(8);
     console.log(str);
     
@@ -32,15 +32,18 @@ const num_to_key = (num) => {
     }
 
     return res;
+    // return res.toUpperCase();
 };
 
-const key_to_num = (keys) => {
+export const key_to_num = (keys) => {
+    // keys = keys.toLowerCase();
+
     let num = -1;
 
     for (let i = 0; i < keys.length; i++) {
         const nc = KeyToNumMap[keys[i]];
         if (isNaN(nc)) {
-            return num;
+            break;
         }
 
         if (num === -1) {
@@ -50,7 +53,7 @@ const key_to_num = (keys) => {
         num = (num * 8) + parseInt(nc, 8)
     }
 
-    return num.toString(10);
+    return num === -1 ? num : parseInt(num.toString(10), 10);
 };
 
 // console.log(`result:\t jlk = ${key_to_num("kha")}`);

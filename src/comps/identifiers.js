@@ -7,7 +7,7 @@ export const create_identifier_element = ({ left, top, fixed, className, id }) =
 
     c.style.backgroundColor = `${BACKGROUND_COLOR}`;
     c.style.border = `1px solid ${BORDER_COLOR}`;
-    c.style.borderRadius = "50%";
+    c.style.borderRadius = "4px";
     c.style.top = `${top}px`;
     c.style.left = `${left}px`;
     c.style.zIndex = 99;
@@ -51,6 +51,10 @@ export const create_input_element = () => {
 
     input.style.padding = "6px 10px";
     input.style.margin = "0px";
+
+    input.addEventListener("focus", (e) => {
+        e.target.style.outline = "none";
+    });
 
     return input;
 }
