@@ -4,6 +4,7 @@ import { get_window_dimensions, find_propigated_style } from "./utils/funcs";
 import {
     create_identifier_element,
     create_input_element,
+    create_error_message_element
 } from "./comps/identifiers";
 
 import {
@@ -116,15 +117,21 @@ const show_input = () => {
         const value = e.target.querySelector("input").value;
 
         const error = handle_user_input(value);
-        if (error) {
-            console.log("Error:", error);
-        }
 
         if (IS_IDENTIFIER_VISIBLE) {
             hide_identifiers();
         }
         if (IS_INPUT_FORM_VISIBLE) {
             hide_input();
+        }
+
+        if (error) {
+            show_error_message(error);
+            setTimeout(() => {
+                if (IS_ERROR_MESSAGE_VISIBLE) {
+                    hide_error_message();
+                }
+            }, 2000);
         }
     });
 
@@ -164,6 +171,32 @@ const hide_input = () => {
     form.parentNode.removeChild(form);
 
     IS_INPUT_FORM_VISIBLE = false;
+};
+
+let IS_ERROR_MESSAGE_VISIBLE = false;
+const ERROR_MESSAGE_ELEMENT_ID = "ERROR_MESSAGE_ELEMENT_ID";
+
+const show_error_message = (errorMsg) => {
+    if (IS_INPUT_FORM_VISIBLE) {
+        hide_input();
+    }
+    if (IS_ERROR_MESSAGE_VISIBLE) {
+        hide_error_message();
+    }
+
+    const errmsg = create_error_message_element({ errorMsg, idAttr: ERROR_MESSAGE_ELEMENT_ID });
+
+    const body = document.querySelector("body");
+    body.appendChild(errmsg);
+
+    IS_ERROR_MESSAGE_VISIBLE = true;
+};
+
+const hide_error_message = () => {
+    var errmsg = document.getElementById(ERROR_MESSAGE_ELEMENT_ID);
+    form.parentNode.removeChild(errmsg);
+
+    IS_ERROR_MESSAGE_VISIBLE = false;
 };
 
 // to handle user input and perform actions
@@ -287,6 +320,9 @@ const add_other_listeners = () => {
             if (IS_INPUT_FORM_VISIBLE) {
                 hide_input();
             }
+            if (IS_ERROR_MESSAGE_VISIBLE) {
+                hide_error_message();
+            }
         });
 
         OTHER_EVENT_LISTENERS_ADDED = true;
@@ -304,6 +340,9 @@ document.onkeyup = (e) => {
             hide_identifiers();
             if (IS_INPUT_FORM_VISIBLE) {
                 hide_input();
+            }
+            if (IS_ERROR_MESSAGE_VISIBLE) {
+                hide_error_message();
             }
         }
 
@@ -324,6 +363,9 @@ document.onkeypress = (e) => {
     if (e.keyCode === IDK_KEY_CODE) {
         if (!IS_IDENTIFIER_VISIBLE) {
             show_identifiers();
+        }
+        if (IS_ERROR_MESSAGE_VISIBLE) {
+            hide_error_message();
         }
 
         show_input();

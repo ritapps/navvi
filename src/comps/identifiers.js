@@ -58,3 +58,36 @@ export const create_input_element = () => {
 
     return input;
 }
+
+export const create_error_message_element = ({ errorMsg, idAttr }) => {
+    const p = document.createElement("p");
+    p.id = idAttr;
+
+    p.style.backgroundColor = `${BACKGROUND_COLOR}`;
+    p.style.border = `1px solid ${BORDER_COLOR}`;
+    p.style.color = `${TEXT_COLOR}`;
+    p.style.borderRadius = "4px";
+    p.style.fontSize = "16px";
+
+    const height = 20;
+    const width = 200;
+    const windim = get_window_dimensions();
+    const top = windim.height - height - 50;
+    const left = (windim.width - width) / 2;
+
+    p.style.top = `${top}px`;
+    p.style.left = `${left}px`;
+    p.style.zIndex = 100;
+
+    p.style.position = "fixed";
+
+    p.style.padding = "6px 10px";
+    p.style.margin = "0px";
+
+    p.addEventListener("focus", (e) => {
+        e.target.style.outline = "none";
+    });
+    
+    p.appendChild(document.createTextNode(errorMsg));
+    return p;
+}
