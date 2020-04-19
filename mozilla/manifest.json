@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "navvi",
-    "version": "0.1",
+    "version": "1.0",
     "description": "",
     "content_scripts": [
         {
@@ -11,16 +11,7 @@
             ],
             "js": [
                 "build/content-script.js"
-            ],
-            "run_at": "document_start",
-            "all_frames": true
+            ]
         }
-    ],
-    "background": {
-        "scripts": [
-            "index.js",
-            "build/content-script.js"
-        ],
-        "persistent": false
-    }
+    ]
 }

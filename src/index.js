@@ -146,9 +146,12 @@ const show_input = () => {
                 hide_identifiers();
             }
             if (IS_INPUT_FORM_VISIBLE) {
-                hide_input();
+                // it had some unexpected behaviour
+                // on chrome what setTimeout solves
+                setTimeout(() => {
+                    hide_input();
+                }, 0);
             }
-            return;
         }
     });
 
@@ -258,11 +261,11 @@ const check_for_specific_actions = (keystr) => {
     switch (keystr.length && keystr.toLowerCase()[0]) {
         case "w":
             return () => {
-                console.log("F", window.history.go(1));
+                window.history.go(1)
             };
         case "b":
             return () => {
-                console.log("F", window.history.go(-1));
+                window.history.go(-1)
             };
         default:
             return null;
@@ -325,8 +328,5 @@ document.onkeypress = (e) => {
 
         show_input();
         add_other_listeners();
-    } else {
-        console.log("IDK_KEY_CODE", IDK_KEY_CODE);
-        console.log("e.keyCode", e.keyCode);
     }
 };

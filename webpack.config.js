@@ -1,14 +1,14 @@
 const path = require("path");
 
-const CHROME_EXTENSION_DIR = path.join(__dirname, "chrome");
-
 module.exports = {
-    entry: ["babel-polyfill", path.join(__dirname, "src", "index.js")],
-    output: {
-        path: path.join(CHROME_EXTENSION_DIR, "build"),
-        filename: "content-script.js"
+    entry: {
+        'chrome/build/content-script': path.join(__dirname, "src", "index.js"),
+        'mozilla/build/content-script': path.join(__dirname, "src", "index.js"),
     },
-    // devtool: 'source-map',
+    output: {
+        path: path.resolve(__dirname),
+        filename: '[name].js'
+    },
     module: {
         rules: [
             {
@@ -26,9 +26,7 @@ module.exports = {
                 test: /\.js$/,
                 exclude: /node_modules/,
                 loader: 'eslint-loader',
-                options: {
-                    // eslint options (if necessary)
-                },
+                options: {},
             }
         ],
     }

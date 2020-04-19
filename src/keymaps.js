@@ -23,8 +23,6 @@ const KeyToNumMap = {
 
 export const num_to_key = (num) => {
     let str = parseInt(num).toString(8);
-    console.log(str);
-    
     let res = "";
 
     for (let i = 0; i < str.length; i++) {

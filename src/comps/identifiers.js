@@ -18,8 +18,8 @@ export const create_identifier_element = ({ left, top, fixed, className, id }) =
     const p = document.createElement("p");
 
     p.style.color = `${TEXT_COLOR}`;
-    p.style.fontSize = "10px";
-    p.style.padding = "2px 2px 2px 2px";
+    p.style.fontSize = "12px";
+    p.style.padding = "1px 4px";
     p.style.margin = "0px";
 
     p.appendChild(document.createTextNode(id));
