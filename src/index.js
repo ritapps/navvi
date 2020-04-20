@@ -333,7 +333,18 @@ const add_other_listeners = () => {
 document.onkeyup = (e) => {
     e = e || window.event;
 
+    const tagName = e.target.tagName.toLowerCase();
+    const typing = tagName === "input" || tagName === "textarea" || tagName === "select";
+
     if (e.keyCode === ESC_KEY_CODE) {
+        e.preventDefault();
+        
+        if (typing) {
+            let temp = document.createElement("input");
+            document.body.appendChild(temp);
+            temp.focus();
+            document.body.removeChild(temp);
+        }
 
         if (!IS_IDENTIFIER_VISIBLE) {
             show_identifiers();
